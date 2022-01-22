@@ -1,0 +1,72 @@
+﻿unit Unit3;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, System.ImageList,
+  Vcl.ImgList, Data.DB, Data.Win.ADODB, Data.FMTBcd, Data.SqlExpr;
+
+type
+  TForm3 = class(TForm)
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Edit1: TEdit;
+    Edit2: TEdit;
+    Edit3: TEdit;
+    Edit4: TEdit;
+    Edit5: TEdit;
+    ImageList1: TImageList;
+    Button1: TButton;
+    Button2: TButton;
+    ADOStoredProc1: TADOStoredProc;
+    SQLStoredProc1: TSQLStoredProc;
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form3: TForm3;
+
+implementation
+
+{$R *.dfm}
+
+uses Unit2;
+
+procedure TForm3.Button1Click(Sender: TObject);
+var
+  ta : TAdoStoredProc;
+begin
+
+ta:=TAdoStroredProc.create(self);
+
+// Закрыть набор данных
+ADOStoredProc1.Active := false;
+
+// Выполнить ХП и открыть набор данных
+ADOStoredProc1.Active := true;
+
+ADOStoredProc1.Parameters.ParamValues['@предприятие'] := Form2.DBEdit1.Text;
+ADOStoredProc1.Parameters.ParamValues['@пр_фамилия'] := Edit1.Text;
+ADOStoredProc1.Parameters.ParamValues['@пр_имя'] := Edit2.Text;
+ADOStoredProc1.Parameters.ParamValues['@пр_отчество'] := Edit3.Text;
+ADOStoredProc1.Parameters.ParamValues['@пр_паспорт'] := Edit5.Text;
+ADOStoredProc1.Parameters.ParamValues['@табельный_номер'] := Edit4.Text;
+
+ADOStoredProc1.Parameters.Refresh;
+
+// Выполнить процедуру
+ADOStoredProc1.ExecProc;
+// Обновить набор данных
+Form2.DBGrid2.Refresh;
+
+end;
+
+end.

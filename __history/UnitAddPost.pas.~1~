@@ -1,0 +1,97 @@
+unit UnitAddPost;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, System.ImageList,
+  Vcl.ImgList, Data.DB, Data.Win.ADODB, Data.FMTBcd, Data.SqlExpr, Vcl.ComCtrls,
+  Vcl.CheckLst;
+
+type
+  TForm20 = class(TForm)
+    Button1: TButton;
+    Button2: TButton;
+    ADOStoredProc1: TADOStoredProc;
+    Edit1: TEdit;
+    CheckListBox1: TCheckListBox;
+    GroupBox1: TGroupBox;
+    GroupBox2: TGroupBox;
+    procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form20: TForm20;
+
+implementation
+
+{$R *.dfm}
+
+uses UnitWeighers;
+
+procedure TForm14.Button1Click(Sender: TObject);
+begin
+
+ADOStoredProc1.Prepared := true;
+ADOStoredProc1.Parameters.Refresh;
+
+if  Edit1.Text = '' then  begin
+    Application.MessageBox('¬ведите инвентарный є весов!', 'ќшибка', MB_OK or MB_ICONERROR);
+    Exit;
+end;
+ADOStoredProc1.Parameters.Items[1].Value := Edit1.Text;
+if  Edit2.Text = '' then begin
+    Application.MessageBox('¬ведите предел весов (макс. допустимый вес)!', 'ќшибка', MB_OK or MB_ICONERROR);
+    Exit;
+end;
+ADOStoredProc1.Parameters.Items[3].Value := Edit2.Text;
+if  Edit3.Text = '' then begin
+    Application.MessageBox('¬ведите погрешность весов!', 'ќшибка', MB_OK or MB_ICONERROR);
+    Exit;
+end;
+ADOStoredProc1.Parameters.Items[4].Value := Edit3.Text;
+if  Edit4.Text = '' then begin
+    Application.MessageBox('¬ведите серийный є весов!', 'ќшибка', MB_OK or MB_ICONERROR);
+    Exit;
+end;
+ADOStoredProc1.Parameters.Items[0].Value := Edit4.Text;
+if  Edit5.Text = '' then begin
+    Application.MessageBox('¬ведите марку весов!', 'ќшибка', MB_OK or MB_ICONERROR);
+    Exit;
+end;
+ADOStoredProc1.Parameters.Items[5].Value := Edit5.Text;
+if  DateTimePicker1.Time = Null then begin
+    Application.MessageBox('¬ведите дату калибровки весов!', 'ќшибка', MB_OK or MB_ICONERROR);
+    Exit;
+end;
+ADOStoredProc1.Parameters.Items[2].Value := DateTimePicker1.DateTime;
+
+Try
+  ADOStoredProc1.ExecProc;
+  Close;
+except on E: Exception do
+  MessageDlg(E.Message, mtError,[mbOK],0);
+  end;
+
+
+  Form13.ADOQueryWeighers.Requery;
+  Form13.DBGrid2.SetFocus;
+end;
+
+procedure TForm14.Button2Click(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TForm14.FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if Key = VK_ESCAPE then Form14.Close;
+end;
+
+end.

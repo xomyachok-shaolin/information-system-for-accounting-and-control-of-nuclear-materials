@@ -1,0 +1,138 @@
+unit UnitPosts;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Data.Win.ADODB, Vcl.Mask,
+  Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.ExtCtrls;
+
+type
+  TForm18 = class(TForm)
+    Panel2: TPanel;
+    Label2: TLabel;
+    Edit2: TEdit;
+    DBNavigator2: TDBNavigator;
+    Panel1: TPanel;
+    Button3: TButton;
+    Button2: TButton;
+    Button1: TButton;
+    Button7: TButton;
+    Panel3: TPanel;
+    DBGrid2: TDBGrid;
+    Panel7: TPanel;
+    DBEdit1: TDBEdit;
+    ADOConnection1: TADOConnection;
+    DataSourcePosts: TDataSource;
+    ADOQueryPosts: TADOQuery;
+    ADOStoredProc1: TADOStoredProc;
+    DBCheckBox1: TDBCheckBox;
+    DBCheckBox2: TDBCheckBox;
+    procedure FormCreate(Sender: TObject);
+    procedure DBGrid2DrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure Button7Click(Sender: TObject);
+    procedure Edit2Change(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form18: TForm18;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm18.Button7Click(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TForm18.DBGrid2DrawColumnCell(Sender: TObject; const Rect: TRect;
+  DataCol: Integer; Column: TColumn; State: TGridDrawState);
+
+const IsChecked : array[Boolean] of Integer =
+      (DFCS_BUTTONCHECK, DFCS_BUTTONCHECK or DFCS_CHECKED);
+var
+  DrawState: Integer;
+  DrawRect: TRect;
+begin
+  if (gdFocused in State) then
+  begin
+    if (Column.Field.FieldName = DBCheckBox1.DataField) then
+    begin
+     DBCheckBox1.Left := Rect.Left + DBGrid2.Left + 2;
+     DBCheckBox1.Top := Rect.Top + DBGrid2.top + 2;
+     DBCheckBox1.Width := Rect.Right - Rect.Left;
+     DBCheckBox1.Height := Rect.Bottom - Rect.Top;
+     DBCheckBox1.Visible := True;
+    end;
+    if (Column.Field.FieldName = DBCheckBox2.DataField) then
+    begin
+     DBCheckBox2.Left := Rect.Left + DBGrid2.Left + 2;
+     DBCheckBox2.Top := Rect.Top + DBGrid2.top + 2;
+     DBCheckBox2.Width := Rect.Right - Rect.Left;
+     DBCheckBox2.Height := Rect.Bottom - Rect.Top;
+     DBCheckBox2.Visible := True;
+    end
+  end
+  else
+  begin
+    if (Column.Field.FieldName = DBCheckBox1.DataField) then
+    begin
+      DrawRect:=Rect;
+      InflateRect(DrawRect, -1, -1);
+      DrawState := ISChecked[Column.Field.AsBoolean];
+      DBGrid2.Canvas.FillRect(Rect);
+      DrawFrameControl(DBGrid2.Canvas.Handle, DrawRect,
+                       DFC_BUTTON, DrawState);
+    end;
+    if (Column.Field.FieldName = DBCheckBox2.DataField) then
+    begin
+      DrawRect:=Rect;
+      InflateRect(DrawRect, -1, -1);
+      DrawState := ISChecked[Column.Field.AsBoolean];
+      DBGrid2.Canvas.FillRect(Rect);
+      DrawFrameControl(DBGrid2.Canvas.Handle, DrawRect,
+                       DFC_BUTTON, DrawState);
+    end
+  end;
+end;
+
+procedure TForm18.Edit2Change(Sender: TObject);
+var help1, help2 :string;
+begin
+
+  help1 := '%'+Form18.Edit2.Text+'%';
+  help2 := QuotedStr(help1);
+  with Form18.ADOQueryPosts do
+  begin
+    close;
+    SQL.Clear;
+    SQL.Add('select * from ‰ÓÎÊÌÓÒÚË where Õ¿»Ã≈ÕŒ¬¿Õ»≈ like '+help2);
+    Open;
+  end;
+end;
+
+
+procedure TForm18.FormCreate(Sender: TObject);
+begin
+
+  DBCheckBox1.DataSource := DataSourcePosts;
+  DBCheckBox1.DataField  := 'œ–¿¬Œ_Œ“¬≈“—“¬_Õ¿ À¿ƒÕŒ…';
+  DBCheckBox1.Visible    := False;
+  DBCheckBox1.Caption    := '';
+
+   //·Û‰ÂÚ ‡Á˙ˇÒÌÂÌÓ ÌËÊÂ ‚ ÒÚ‡Ú¸Â
+   DBCheckBox1.ValueChecked := 'y';
+   DBCheckBox1.ValueUnChecked := 'n';
+
+   DBGrid2.Focused;
+
+
+end;
+
+end.

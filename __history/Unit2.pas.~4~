@@ -1,0 +1,116 @@
+unit Unit2;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Data.Win.ADODB, Vcl.Bind.Grid,
+  System.Rtti, System.Bindings.Outputs, Vcl.Bind.Editors, Data.Bind.EngExt,
+  Vcl.Bind.DBEngExt, Data.Bind.Components, Data.Bind.Grid, Vcl.Grids,
+  Data.Bind.DBScope, Vcl.DBGrids, Vcl.StdCtrls, Vcl.DBCtrls, Vcl.ExtCtrls,
+  Vcl.Mask;
+
+type
+  TForm2 = class(TForm)
+    ADOConnection1: TADOConnection;
+    ADOQueryPartners: TADOQuery;
+    DBGrid1: TDBGrid;
+    DataSourcePartners: TDataSource;
+    GroupBox1: TGroupBox;
+    DBNavigator1: TDBNavigator;
+    Edit1: TEdit;
+    Предприятие: TDBText;
+    BindingsList1: TBindingsList;
+    GroupBox2: TGroupBox;
+    Представитель: TDBText;
+    DBGrid2: TDBGrid;
+    Edit2: TEdit;
+    DBNavigator2: TDBNavigator;
+    DataSourceRepresent: TDataSource;
+    ADOQueryReperesent: TADOQuery;
+    DBEdit1: TDBEdit;
+    procedure Edit1Change(Sender: TObject);
+    procedure DBGrid1CellClick(Column: TColumn);
+    procedure DBEdit1Change(Sender: TObject);
+    procedure Edit2Change(Sender: TObject);
+    procedure DBGrid2CellClick(Column: TColumn);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form2: TForm2;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm2.DBEdit1Change(Sender: TObject);
+
+var h1, h2:string;
+begin
+  h1 := ''+Form2.DBEdit1.Text+'%';
+  h2 := QuotedStr(h1);
+  with Form2.ADOQueryReperesent do
+  begin
+    close;
+    SQL.Clear;
+    SQL.Add('select * from Представители where ИД_Предприятия like '+h2);
+    Open;
+  end;
+
+end;
+
+procedure TForm2.DBGrid1CellClick(Column: TColumn);
+begin
+  DBGrid1.SelectedRows.CurrentRowSelected := True;
+end;
+
+procedure TForm2.DBGrid2CellClick(Column: TColumn);
+begin
+   DBGrid2.SelectedRows.CurrentRowSelected := True;
+end;
+
+procedure TForm2.Edit1Change(Sender: TObject);
+
+var help1, help2 :string;
+
+begin
+
+  help1 := '%'+Form2.Edit1.Text+'%';
+  help2 := QuotedStr(help1);
+  with Form2.ADOQueryPartners do
+  begin
+    close;
+    SQL.Clear;
+    SQL.Add('select * from Предприятие_партнер where ИД_предприятия like '+help2+
+                                              ' or Наименование like'+help2+
+                                              ' or Адрес like'+help2+
+                                              ' or ИНН like'+help2);
+    Open;
+  end;
+end;
+
+procedure TForm2.Edit2Change(Sender: TObject);
+
+var help1, help2 :string;
+
+begin
+
+  help1 := '%'+Form2.Edit2.Text+'%';
+  help2 := QuotedStr(help1);
+  with Form2.ADOQueryPartners do
+  begin
+    close;
+    SQL.Clear;
+    SQL.Add('select * from Представители where Наименование like'+help2+
+                                              ' or Адрес like'+help2+
+                                              ' or ИНН like'+help2);
+    Open;
+  end;
+
+end;
+
+end.

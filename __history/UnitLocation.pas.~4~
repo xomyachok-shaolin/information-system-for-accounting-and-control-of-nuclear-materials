@@ -1,0 +1,45 @@
+unit UnitLocation;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Data.Win.ADODB, Vcl.Mask,
+  Vcl.DBCtrls, Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls;
+
+type
+  TForm17 = class(TForm)
+    Button8: TButton;
+    Edit3: TEdit;
+    Label4: TLabel;
+    Panel7: TPanel;
+    procedure Edit3Change(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form17: TForm17;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm17.Edit3Change(Sender: TObject);
+var help1, help2 :string;
+begin
+  help1 := '%'+Form17.Edit3.Text+'%';
+  help2 := QuotedStr(help1);
+  with Form17.ADOQueryLocation do
+  begin
+    Close;
+    SQL.Clear;
+
+    SQL.Add('select * from местополож where ЗБМ like '+help2);
+    Open;
+  end;
+end;
+
+end.

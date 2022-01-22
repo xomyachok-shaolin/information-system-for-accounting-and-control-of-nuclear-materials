@@ -1,0 +1,99 @@
+unit UnitMain;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, System.ImageList, Vcl.ImgList;
+
+type
+  TForm1 = class(TForm)
+    MainMenu1: TMainMenu;
+    N1: TMenuItem;
+    N2: TMenuItem;
+    N3: TMenuItem;
+    N4: TMenuItem;
+    N5: TMenuItem;
+    N6: TMenuItem;
+    N7: TMenuItem;
+    N8: TMenuItem;
+    N9: TMenuItem;
+    N10: TMenuItem;
+    N11: TMenuItem;
+    N12: TMenuItem;
+    N13: TMenuItem;
+    ImageList1: TImageList;
+    procedure N2Click(Sender: TObject);
+    procedure N3Click(Sender: TObject);
+    procedure N4Click(Sender: TObject);
+    procedure N5Click(Sender: TObject);
+    procedure N6Click(Sender: TObject);
+    procedure N8Click(Sender: TObject);
+    procedure N10Click(Sender: TObject);
+    procedure N11Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+uses UnitPartners, UnitTypesMaterial, UnitTypeContainer, UnitWeighers, UnitMaterials,
+  UnitLocations,
+  UnitPosts, UnitEmployee;
+
+procedure TForm1.N10Click(Sender: TObject);
+begin
+  Form18 := TForm18.Create(Application);
+  Form18.ShowModal;
+end;
+
+procedure TForm1.N11Click(Sender: TObject);
+begin
+  Form19 := TForm19.Create(Application);
+  Form19.ShowModal;
+end;
+
+procedure TForm1.N2Click(Sender: TObject);
+begin
+  Form2 := TForm2.Create(Application);
+  Form2.ShowModal;
+end;
+
+procedure TForm1.N3Click(Sender: TObject);
+begin
+  Form7 := TForm7.Create(Application);
+  Form7.ShowModal;
+end;
+
+procedure TForm1.N4Click(Sender: TObject);
+begin
+  Form10 := TForm10.Create(Application);
+  Form10.ShowModal;
+end;
+
+procedure TForm1.N5Click(Sender: TObject);
+begin
+  Form13 := TForm13.Create(Application);
+  Form13.ShowModal;
+end;
+
+procedure TForm1.N6Click(Sender: TObject);
+begin
+  Form16 := TForm16.Create(Application);
+  Form16.ShowModal;
+end;
+
+procedure TForm1.N8Click(Sender: TObject);
+begin
+  Form17 := TForm17.Create(Application);
+  Form17.ShowModal;
+end;
+
+end.

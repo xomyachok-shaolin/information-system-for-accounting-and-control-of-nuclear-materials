@@ -1,0 +1,24 @@
+object Form2: TForm2
+  Left = 0
+  Top = 0
+  Caption = #1057#1059#1080#1050' '#1071#1052' - '#1055#1088#1077#1076#1087#1088#1080#1103#1090#1080#1103' - '#1087#1072#1088#1090#1085#1077#1088#1099
+  ClientHeight = 429
+  ClientWidth = 525
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object ADOConnection1: TADOConnection
+    ConnectionString = 
+      'Provider=OraOLEDB.Oracle.1;Password=Starwars6;Persist Security I' +
+      'nfo=True;User ID=MASS_19;Data Source=oti.ru:1521/alfa'
+    Provider = 'OraOLEDB.Oracle'
+    Left = 464
+    Top = 16
+  end
+end
